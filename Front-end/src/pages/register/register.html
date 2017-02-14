@@ -1,18 +1,71 @@
-<!--
-  Generated template for the Register page.
+<ion-content class="login-content" padding>
+  <ion-row class="logo-row">
+    <ion-col></ion-col>
+    <ion-col width-50>
+      <img src="assets/img/retoSolidaridad.png"/>
+    </ion-col>
+    <ion-col></ion-col>
+  </ion-row>
+  <div class="login-box">
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-<ion-header>
+    <form (ngSubmit)="register()" #registerForm="ngForm">
+      <ion-row>
+        <ion-col>
+          <ion-list inset>
 
-  <ion-navbar>
-    <ion-title>register</ion-title>
-  </ion-navbar>
+            <ion-item>
+              <ion-input type="text" placeholder="Email" name="email" [(ngModel)]="registerCredentials.email" required></ion-input>
+            </ion-item>
 
-</ion-header>
+            <ion-item>
+              <ion-input type="text" placeholder="Nombre" name="name" [(ngModel)]="registerCredentials.nombres" required></ion-input>
+            </ion-item>
 
+            <ion-item>
+              <ion-input type="text" placeholder="Apellido" name="lastName" [(ngModel)]="registerCredentials.apellidos" required></ion-input>
+            </ion-item>
 
-<ion-content padding>
+            <ion-item>
+              <ion-select >
+                <ion-option value="Venezuela">Venezuela</ion-option>
+                <ion-option value="Colombia">Colombia</ion-option>
+                <ion-option value="Ecuador">Ecuador</ion-option>
+                <ion-option value="Perú">Perú</ion-option>
+                <ion-option value="Argentina">Argentina</ion-option>
+                <ion-option value="España">España</ion-option>
+              </ion-select>
+              <ion-input type="number" placeholder="Identificacion" name="identify" [(ngModel)]="registerCredentials.cedula" required></ion-input>
+            </ion-item>
 
+            <ion-item>
+              <ion-input type="number" placeholder="Numero telefonico" name="phoneNumber" [(ngModel)]="registerCredentials.telefono_principal" required></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>País</ion-label>
+              <ion-select >
+                 <ion-option value="Venezuela">Venezuela</ion-option>
+                 <ion-option value="Colombia">Colombia</ion-option>
+                 <ion-option value="Ecuador">Ecuador</ion-option>
+                 <ion-option value="Perú">Perú</ion-option>
+                 <ion-option value="Argentina">Argentina</ion-option>
+                 <ion-option value="España">España</ion-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item>
+              <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="registerCredentials.password" required></ion-input>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="signup-col">
+          <button ion-button color="secondary" full type="submit" [disabled]="!registerForm.form.valid">Registrar</button>
+        </ion-col>
+      </ion-row>
+
+    </form>
+  </div>
 </ion-content>

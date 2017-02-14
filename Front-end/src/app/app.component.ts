@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
-
+import { RegisterPage } from '../pages/register/register';
 import { LoginPage } from '../pages/login/login';
 
 
@@ -9,7 +9,7 @@ import { LoginPage } from '../pages/login/login';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage = LoginPage;
+  rootPage = RegisterPage;
 
   constructor(platform: Platform) {
     platform.ready().then(() => {
