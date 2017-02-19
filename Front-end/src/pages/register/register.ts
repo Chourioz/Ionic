@@ -17,6 +17,19 @@ export class RegisterPage {
     email: '',
     password: '',
   };
+  idPrefijos = [
+    {valorVisual: 'V'},
+    {valorVisual: 'E'}
+  ];
+  tlfPrefijos = [
+    {valorReal: '+58412', valorVisual: '0412'},
+    {valorReal: '+58416', valorVisual: '0416'},
+    {valorReal: '+58426', valorVisual: '0426'},
+    {valorReal: '+58414', valorVisual: '0414'},
+    {valorReal: '+58424', valorVisual: '0424'},
+    {valorReal: '+58212', valorVisual: '0212'}
+  ];
+  
   url = 'http://192.168.2.30:8888';
 
   constructor(private http: Http, private nav: NavController, private alertCtrl: AlertController, private loadingCtrl: LoadingController) {}

@@ -5,6 +5,7 @@ import { AboutPage } from '../pages/about/about';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
+import { BackgroundImage } from '../directives/background-image';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { RegisterPage } from '../pages/register/register';
     AboutPage,
     HomePage,
     LoginPage,
-    RegisterPage
+    RegisterPage,
+    BackgroundImage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
