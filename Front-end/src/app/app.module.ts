@@ -5,7 +5,10 @@ import { AboutPage } from '../pages/about/about';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
+import { InitPage } from '../pages/init/init';
 import { BackgroundImage } from '../directives/background-image';
+import { UtilitieService } from '../services/utilities';
+import { AuthenticationService } from '../services/auth-service';
 
 @NgModule({
   declarations: [
@@ -13,8 +16,9 @@ import { BackgroundImage } from '../directives/background-image';
     AboutPage,
     HomePage,
     LoginPage,
-    RegisterPage,
-    BackgroundImage
+    BackgroundImage,
+    InitPage,
+    RegisterPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -25,9 +29,10 @@ import { BackgroundImage } from '../directives/background-image';
     AboutPage,
     HomePage,
     LoginPage,
+    InitPage,
     RegisterPage
 
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, UtilitieService, AuthenticationService]
 })
 export class AppModule {}

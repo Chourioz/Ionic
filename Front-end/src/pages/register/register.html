@@ -1,4 +1,4 @@
-<ion-content class="login-content" background-image="assets/img/retoSolidaridad.png" padding>
+<ion-content class="login-content" padding>
   <ion-row class="logo-row">
     <ion-col></ion-col>
     <ion-col width-50>
@@ -8,7 +8,7 @@
   </ion-row>
   <div class="login-box">
 
-    <form (ngSubmit)="register()" #registerForm="ngForm">
+    <form (ngSubmit)="registerUser()" #registerForm="ngForm">
       <ion-row>
         <ion-col>
           <ion-list inset>
@@ -18,33 +18,31 @@
             </ion-item>
 
             <ion-item>
-              <ion-input type="text" placeholder="Nombre" name="name" [(ngModel)]="registerCredentials.nombres" required></ion-input>
+              <ion-input type="text" placeholder="Nombre" name="name" [(ngModel)]="registerCredentials.nombre" required></ion-input>
             </ion-item>
 
             <ion-item>
-              <ion-input type="text" placeholder="Apellido" name="lastName" [(ngModel)]="registerCredentials.apellidos" required></ion-input>
+              <ion-input type="text" placeholder="Apellido" name="lastName" [(ngModel)]="registerCredentials.apellido" required></ion-input>
             </ion-item>
 
             <ion-item>
               <ion-select >
                 <ion-option value="Venezuela">Venezuela</ion-option>
               </ion-select>
-              <ion-input type="number" placeholder="Identificacion" name="identify" [(ngModel)]="registerCredentials.cedula" required></ion-input>
+              <ion-input type="text" placeholder="Identificacion" name="identify" [(ngModel)]="registerCredentials.identificacion" required></ion-input>
             </ion-item>
 
             <ion-item>
-              <ion-input type="number" placeholder="Numero telefonico" name="phoneNumber" [(ngModel)]="registerCredentials.telefono_principal" required></ion-input>
+              <ion-select name="selectId" placeholder="- -" [(ngModel)]="prefijoId">
+                <ion-option *ngFor="let id of idPrefijos">{{id.valorVisual}}</ion-option>
+              </ion-select>
+              <ion-input type="text" placeholder="Numero telefonico" name="phoneNumber" [(ngModel)]="telefono" required></ion-input>
             </ion-item>
 
             <ion-item>
               <ion-label>País</ion-label>
-              <ion-select >
-                 <ion-option value="Venezuela">Venezuela</ion-option>
-                 <ion-option value="Colombia">Colombia</ion-option>
-                 <ion-option value="Ecuador">Ecuador</ion-option>
-                 <ion-option value="Perú">Perú</ion-option>
-                 <ion-option value="Argentina">Argentina</ion-option>
-                 <ion-option value="España">España</ion-option>
+              <ion-select name="selectPais" placeholder="Seleccione..." [(ngModel)]="Pais">
+                 <ion-option *ngFor="let pais of paises"> {{pais.nombre}} </ion-option>
               </ion-select>
             </ion-item>
 

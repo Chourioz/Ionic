@@ -27,7 +27,15 @@ module.exports.policies = {
   ***************************************************************************/
 
   // '*': true,
+  'UsuarioController': {
+    'registerUser': true,
+    'login': true,
+  },
 
+  'UtilitiesController': {
+    '*': true,
+  },
+  
   /***************************************************************************
   *                                                                          *
   * Here's an example of mapping some policies to run before a controller    *

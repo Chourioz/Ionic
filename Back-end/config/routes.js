@@ -34,7 +34,40 @@ module.exports.routes = {
 
   '/': {
     view: 'homepage'
-  }
+  },
+
+  'POST /usuario/registrar': {
+    controller: 'UsuarioController',
+    action: 'registerUser',
+    cors: true
+  },
+
+  'POST /usuario/login': {
+    controller: 'UsuarioController',
+    action: 'iniciarSesion',
+    cors: true
+  },
+
+  'GET /utilities/paises': {
+    controller: 'UtilitiesController',
+    action: 'consultarPaises',
+    cors: true
+  },
+
+  '/utilities/ciudades': {
+    controller: 'UtilitiesController',
+    action: 'consultarCiudades'
+  },
+
+  '/utilities/estados': {
+    controller: 'UtilitiesController',
+    action: 'consultarEstados'
+  },
+
+  '/utilities/municipios': {
+    controller: 'UtilitiesController',
+    action: 'consultarMunicipios'
+  },
 
   /***************************************************************************
   *                                                                          *

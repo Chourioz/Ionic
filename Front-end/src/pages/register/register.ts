@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { NavController, AlertController, LoadingController, Loading } from 'ionic-angular';
-//import { HomePage } from '../home/home';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+import { NavController, ToastController, LoadingController, Loading } from 'ionic-angular';
+import { HomePage } from '../home/home';
+import { AuthenticationService } from '../../services/auth-service';
+import { UtilitieService } from '../../services/utilities';
 
 @Component({
   selector: 'page-register',
@@ -14,76 +12,71 @@ export class RegisterPage {
   loading: Loading;
   createSuccess = false;
   registerCredentials = {
-    email: '',
-    password: '',
+    nombre:'',
+    apellido:'',
+    tipo_persona:'',
+    email:'',
+    pais:'',
+    identificacion:'',
+    telefono_principal:'',
+    res_direccion:'',
+    fecha_nacimiento:'',
+    password:''
   };
-  idPrefijos = [
-    {valorVisual: 'V'},
-    {valorVisual: 'E'}
-  ];
+
+  paises = [];
+
+  idPrefijos = [{valorVisual: 'V'}, {valorVisual: 'E'}];
   tlfPrefijos = [
-    {valorReal: '+58412', valorVisual: '0412'},
-    {valorReal: '+58416', valorVisual: '0416'},
-    {valorReal: '+58426', valorVisual: '0426'},
-    {valorReal: '+58414', valorVisual: '0414'},
-    {valorReal: '+58424', valorVisual: '0424'},
-    {valorReal: '+58212', valorVisual: '0212'}
+    {valorReal:'+58212', valorVisual:'0212'},
+    {valorReal:'+58412', valorVisual:'0412'},
+    {valorReal:'+58416', valorVisual:'0416'},
+    {valorReal:'+58426', valorVisual:'0426'},
+    {valorReal:'+58414', valorVisual:'0414'},
+    {valorReal:'+58424', valorVisual:'0424'}
   ];
-  
-  url = 'http://192.168.2.30:8888';
 
-  constructor(private http: Http, private nav: NavController, private alertCtrl: AlertController, private loadingCtrl: LoadingController) {}
+  constructor(private utilities: UtilitieService,private auth: AuthenticationService, private nav: NavController, private toastCtrl: ToastController, private loadingCtrl: LoadingController) {
+    this.utilities.getPaises()
+    .then(
+      paises => this.paises = paises,
 
-  public register() {
+      error => this.showError(error)
+    );
+  }
+
+  public registerUser() {
     this.showLoading();
-    this.registerService(this.registerCredentials).subscribe(success => {
-      if (success) {
+    this.auth.register(this.registerCredentials)
+    .then(
+      usuario => {
         this.loading.dismiss();
-        this.createSuccess = true;
-          this.showPopup("Success", "Account created.");
-      } else {
-        this.showPopup("Error", "Problem creating account.");
-      }
-    },
-    error => {
-      this.showPopup("Error", error);
-    });
-  }
+        this.nav.setRoot(HomePage);
+      },
 
-  showPopup(title, text) {
-    let alert = this.alertCtrl.create({
-      title: title,
-      message: text,
-      buttons: [
-       {
-         text: 'OK',
-         handler: data => {
-           if (this.createSuccess) {
-             this.nav.popToRoot();
-           }
-         }
-       }
-     ]
+      error => this.showError(error)
+    );
+  };
+
+  private showError(error){
+    setTimeout(() => {
+      this.loading.dismiss();
     });
-    alert.present();
-  }
+
+    let toast = this.toastCtrl.create({
+      message: error,
+      duration: 3000,
+      position: 'middle'
+    });
+    toast.present();
+  };
+
 
   private showLoading(){
     this.loading = this.loadingCtrl.create({
       content: 'Registrando Usuario...'
     });
     this.loading.present();
-  }
-
-  private registerService(credentials){
-    return this.http.post(this.url+'/usuario/registrar',credentials)
-    .map((res: Response)=> res.json())
-    .catch(error => this.handleError(error))
-  }
-
-  private handleError (error: Response) {
-    console.error(error);
-        return Observable.throw(error.json().error || ' error');
   }
 
 }

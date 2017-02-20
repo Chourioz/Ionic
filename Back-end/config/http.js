@@ -21,6 +21,17 @@ module.exports.http = {
   *                                                                           *
   ****************************************************************************/
 
+  bodyParser: function () {
+    var opts = {limit: '2mb'};
+
+    // Default to built-in bodyParser:
+    var fn;
+    fn = require('skipper');
+
+    return fn(opts);
+  },
+
+
   middleware: {
 
   /***************************************************************************
@@ -30,23 +41,23 @@ module.exports.http = {
   *                                                                          *
   ***************************************************************************/
 
-    // order: [
-    //   'startRequestTimer',
-    //   'cookieParser',
-    //   'session',
-    //   'myRequestLogger',
-    //   'bodyParser',
-    //   'handleBodyParserError',
-    //   'compress',
-    //   'methodOverride',
-    //   'poweredBy',
-    //   '$custom',
-    //   'router',
-    //   'www',
-    //   'favicon',
-    //   '404',
-    //   '500'
-    // ],
+    order: [
+      'startRequestTimer',
+      'cookieParser',
+      'session',
+      'myRequestLogger',
+      'bodyParser',
+      //'handleBodyParserError',
+      'compress',
+      'methodOverride',
+      'poweredBy',
+      '$custom',
+      'router',
+      'www',
+      'favicon',
+      '404',
+      '500'
+    ],
 
   /****************************************************************************
   *                                                                           *
@@ -54,10 +65,10 @@ module.exports.http = {
   *                                                                           *
   ****************************************************************************/
 
-    // myRequestLogger: function (req, res, next) {
-    //     console.log("Requested :: ", req.method, req.url);
-    //     return next();
-    // }
+    myRequestLogger: function (req, res, next) {
+        console.log("Requested :: ", req.method, req.url);
+        return next();
+    },
 
 
   /***************************************************************************
@@ -74,7 +85,15 @@ module.exports.http = {
   * middleware function).                                                    *
   *                                                                          *
   ***************************************************************************/
-
+    handleBodyParserError: function (error, req, res, next) {
+      if (error) {
+        console.log(error)
+        if (error.statusCode == 413) return res.status(413).send();
+        else if (error.statusCode == 400) return res.status(400).send();
+        else return res.status(400).send();
+      }
+      else return next();
+    },
     // bodyParser: require('skipper')({strict: true})
 
   },

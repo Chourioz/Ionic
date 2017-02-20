@@ -13,5 +13,16 @@ module.exports.bootstrap = function(cb) {
 
   // It's very important to trigger this callback method when you are finished
   // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
+  sails.hooks.http.app.set('trust proxy', true);
+
+
+  Lift.cargarPaisesCodigo(function(err) {
+    if (err) {
+      console.log('Warning:'.red, 'no se crearon los datos de locacion por defecto');
+    };
+  });
+
+  Lift.cargarPreguntas(function(err){});
+  
   cb();
 };
