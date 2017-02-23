@@ -43,8 +43,8 @@ module.exports = {
   iniciarSesion: function(req, res) {
     if (req.method == "POST") {
       var datos = {
-        usuario: req.params('usuario'),
-        password: req.params('password'),
+        usuario: req.param('usuario'),
+        password: req.param('password'),
       };
 
       Usuario.login(datos, function(err, usuario) {
