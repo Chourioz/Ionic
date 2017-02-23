@@ -11,6 +11,7 @@ import { UtilitieService } from '../../services/utilities';
 export class RegisterPage {
   loading: Loading;
   createSuccess = false;
+
   registerCredentials = {
     nombre:'',
     apellido:'',
@@ -24,7 +25,14 @@ export class RegisterPage {
     password:''
   };
 
+  idPais = "";
   paises = [];
+  persona_natural = false;
+  persona_juridica = false;
+  telefono = '';
+  identificacion= '';
+  prefijoId;
+  prefixTlf;
 
   idPrefijos = [{valorVisual: 'V'}, {valorVisual: 'E'}];
   tlfPrefijos = [
@@ -47,6 +55,13 @@ export class RegisterPage {
 
   public registerUser() {
     this.showLoading();
+    if(this.persona_natural) {
+      this.registerCredentials.tipo_persona = "natural"
+    }
+    this.registerCredentials.telefono_principal = this.prefixTlf+'-'+this.telefono;
+    this.registerCredentials.identificacion = this.prefijoId+'-'+this.identificacion;
+    this.registerCredentials.pais = this.idPais;
+    console.log(this.registerCredentials);
     this.auth.register(this.registerCredentials)
     .then(
       usuario => {
@@ -57,6 +72,12 @@ export class RegisterPage {
       error => this.showError(error)
     );
   };
+
+  showPais(item){
+    //console.log('item',item, 'index', index);
+    //console.log(index)
+    this.idPais = item;
+  }
 
   private showError(error){
     setTimeout(() => {

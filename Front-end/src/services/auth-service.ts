@@ -12,7 +12,8 @@ export class AuthenticationService  {
 	}
 
 	public register(data){
-		if(data.usuario == null || data.password == null) {
+		console.log('Data', data)
+		if(data == null || data == undefined) {
 			return Promise.reject("Por favor inserte las credenciales");
 		}else{
 			return this.http.post(this.url+'/usuario/registrar', data)
@@ -20,6 +21,14 @@ export class AuthenticationService  {
 			.then(this.extractData)
 			.catch(this.handleError);
 		}
+	};
+
+	public login(data){
+		if(data.usuario == null || data.password == null) return Promise.reject("No se sumunistraron las credenciales");
+		else return this.http.post(this.url+'/usuario/login', data)
+			.toPromise()
+			.then(this.extractData)
+			.catch(this.handleError);
 	};
 
 	private extractData(res: Response){

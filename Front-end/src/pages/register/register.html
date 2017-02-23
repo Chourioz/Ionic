@@ -8,7 +8,24 @@
   </ion-row>
   <div class="login-box">
 
-    <form (ngSubmit)="registerUser()" #registerForm="ngForm">
+    <ion-list [hidden]="persona_natural || persona_juridica" radio-group>
+      <ion-list-header>
+        Tipo de Registro
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label>Persona Natural</ion-label>
+        <ion-radio checked="{{persona_natural}}" value="{{persona_natural}}" (click)="persona_natural = !persona_natural"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Persona Juridica</ion-label>
+        <ion-radio checked="{{persona_juridica}}" value="{{persona_juridica}}" (click)="persona_juridica = !persona_juridica"></ion-radio>
+      </ion-item>
+    </ion-list>
+
+
+    <form *ngIf="persona_natural" #registerForm="ngForm">
       <ion-row>
         <ion-col>
           <ion-list inset>
@@ -26,26 +43,35 @@
             </ion-item>
 
             <ion-item>
-              <ion-select >
-                <ion-option value="Venezuela">Venezuela</ion-option>
-              </ion-select>
-              <ion-input type="text" placeholder="Identificacion" name="identify" [(ngModel)]="registerCredentials.identificacion" required></ion-input>
+              <ion-label>Fecha de Nacimiento</ion-label>
+                <ion-datetime name="fecha_nacimiento" displayFormat="DD/MMM/YYYY" pickerFormat="DD/MMM/YYYY" [(ngModel)]="registerCredentials.fecha_nacimiento"></ion-datetime>
             </ion-item>
 
             <ion-item>
               <ion-select name="selectId" placeholder="- -" [(ngModel)]="prefijoId">
                 <ion-option *ngFor="let id of idPrefijos">{{id.valorVisual}}</ion-option>
               </ion-select>
+              <ion-input type="text" placeholder="Identificacion" name="identify" [(ngModel)]="identificacion" required></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-select name="selectId" placeholder="- -" [(ngModel)]="prefixTlf">
+                <ion-option *ngFor="let id of tlfPrefijos">{{id.valorVisual}}</ion-option>
+              </ion-select>
               <ion-input type="text" placeholder="Numero telefonico" name="phoneNumber" [(ngModel)]="telefono" required></ion-input>
             </ion-item>
 
             <ion-item>
-              <ion-label>País</ion-label>
-              <ion-select name="selectPais" placeholder="Seleccione..." [(ngModel)]="Pais">
-                 <ion-option *ngFor="let pais of paises"> {{pais.nombre}} </ion-option>
+              <ion-label style="margin-right: 0px" >País</ion-label>
+              <ion-select style="padding-left: 0px; max-width: 80%" name="selectPais" placeholder="Seleccione..." [(ngModel)]="registerCredentials.pais" >
+                 <ion-option *ngFor="let item of paises" (ionSelect)="showPais(item.id)"> {{item.nombre}} </ion-option>
               </ion-select>
             </ion-item>
 
+            <ion-item>
+              <ion-textarea name="direccion"  placeholder="Dirección..." [(ngModel)]="registerCredentials.res_direccion" required></ion-textarea>
+            </ion-item>
+            
             <ion-item>
               <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="registerCredentials.password" required></ion-input>
             </ion-item>
@@ -55,7 +81,7 @@
 
       <ion-row>
         <ion-col class="signup-col">
-          <button ion-button color="secondary" full type="submit" [disabled]="!registerForm.form.valid">Registrar</button>
+          <button ion-button color="secondary" full type="submit" (click)="registerUser()" [disabled]="!registerForm.form.valid">Registrar</button>
         </ion-col>
       </ion-row>
 

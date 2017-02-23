@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ToastController, LoadingController, Loading } from 'ionic-angular';
 import { Facebook, NativeStorage } from 'ionic-native';
 import { HomePage } from '../home/home';
 import { RegisterPage } from '../register/register';
+import { LoginPage } from '../login/login';
+import { AuthenticationService } from '../../services/auth-service';
+
 
 /*
   Generated class for the Init page.
@@ -16,9 +19,13 @@ import { RegisterPage } from '../register/register';
 })
 export class InitPage {
 
+  loading: Loading;
+
+  loginCredentials = {usuario: '', password: ''};
+
 	FB_APP_ID: number = 1113412445434950;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private toastCtrl: ToastController ,public navCtrl: NavController, public navParams: NavParams, private loadingCtrl: LoadingController, private auth: AuthenticationService) {
   	Facebook.browserInit(this.FB_APP_ID, "v2.8");
   }
 
@@ -63,4 +70,33 @@ export class InitPage {
     this.navCtrl.setRoot(RegisterPage);
   }
 
+
+  iniciarSesion(){
+    return this.auth.login(this.loginCredentials)
+    .then(
+      siguiente => this.navCtrl.setRoot(HomePage),
+      error => this.showError(error)
+    );
+  }
+
+  private showError(error){
+    setTimeout(() => {
+      this.loading.dismiss();
+    });
+
+    let toast = this.toastCtrl.create({
+      message: error,
+      duration: 3000,
+      position: 'middle'
+    });
+    toast.present();
+  };
+
+
+  private showLoading(){
+    this.loading = this.loadingCtrl.create({
+      content: 'Registrando Usuario...'
+    });
+    this.loading.present();
+  }
 }
